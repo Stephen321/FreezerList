@@ -1,7 +1,6 @@
 <template>
   <div id="search">
-    <h1>Search:</h1>
-    <input id="search-box" type="text" name="name"><br>
+    <input id="search-box" type="text" name="name" placeholder="Search..."><br>
   </div>
 </template>
 
@@ -24,5 +23,7 @@ export default {
   width: 100%;
   height: 2em;
   margin-bottom: 1em;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
 </style>

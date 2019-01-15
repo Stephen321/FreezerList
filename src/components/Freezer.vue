@@ -1,5 +1,6 @@
 <template>
   <div id="freezer">
+    <button @click="tempRefreshList">Temp button refresh list</button>
     <ul id="freezer-list">
       <FreezerItem 
       v-for="item in freezerItems"
@@ -11,48 +12,35 @@
 
 <script>
 import FreezerItem from './FreezerItem.vue'
+import { GetItemsUrl } from '../constants.js'
 
 export default {
   name: 'Freezer',
   data() {
     return {
       freezerItems: [
-        { 
-          id: 0,
-          name: "item 1",
-          amount: 8
-        },
-        { 
-          id: 1,
-          name: "some thing 2",
-          amount: 11
-        },
-        { 
-          id: 2,
-          name: "long name",//long name long name",
-          amount: 9
-        },
-        { 
-          id: 3,
-          name: "another item",
-          amount: 4
-        },
-        { 
-          id: 4,
-          name: "again an item",
-          amount: 2
-        },
-        { 
-          id: 5,
-          name: "this is a name",
-          amount: 3
-        },
-        { 
-          id: 6,
-          name: "another's name",
-          amount: 5
-        }
       ]
+    }
+  },
+  created() {
+    this.tempRefreshList();
+  },
+  methods: {
+    tempRefreshList() {
+      console.log("temp refresh list");
+      fetch(GetItemsUrl
+      /*, {
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+       */
+       )
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.freezerItems = data;
+        });
     }
   },
   components: {
@@ -68,18 +56,18 @@ export default {
   margin: 1em;
   border: solid black 2px;
   min-width: 220px;
-}
 
-#freezer-list {
-  padding: 0;
-  margin: 0 0;
-  list-style: none;
-  background-color: cornflowerblue;
-  border: solid black 2px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  grid-gap: 10px 10px;
-  max-height: 572px;
-  overflow-y: auto;
+  #freezer-list {
+    padding: 0;
+    margin: 0 0;
+    list-style: none;
+    background-color: cornflowerblue;
+    border: solid black 2px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-gap: 10px 10px;
+    max-height: 44em;
+    overflow-y: auto;
+  }
 }
 </style>

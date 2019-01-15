@@ -1,17 +1,24 @@
 <template>
   <div id="add-item">
     <h1>Add new item</h1>
-    <form action="" method="get">
+    <form :action="AddItemUrl" method="post">
       <label>Item name:</label> <input type="text" name="name"><br>
-      <label>Amount:</label> <input type="text" name="amount"><br>
-      <button>Add new item</button>
+      <label>Amount:</label> <input type="number" name="amount"><br>
+      <button type="submit">Add new item</button>
     </form>
   </div>
 </template>
 
 <script>
+import { AddItemUrl } from '../constants.js'
+
 export default {
-  name: 'AddItem'
+  name: 'AddItem',
+  data() {
+    return {
+      AddItemUrl
+    }
+  }
 }
 </script>
 

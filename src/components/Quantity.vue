@@ -1,8 +1,8 @@
 <template>
   <div class="quantity">
-        <img class="quantity-plus-img" src="../assets/minus.png" alt="">
+        <a class="quantity-minus" href=""><img src="../assets/minus.png" alt=""></a>
         <span class="quantity-amount">{{ amount }}</span>
-        <img class="quantity-minus-img" src="../assets/plus.png" alt="">
+        <a class="quantity-plus" href=""><img src="../assets/plus.png" alt=""></a>
   </div>
 </template>
 
@@ -21,19 +21,34 @@ export default {
 <style lang="less">
 .quantity {
   background-color: rgb(129, 209, 236);
-  text-align: initial;
-}
+  text-align: center;
 
-.quantity-plus-img, 
-.quantity-minus-img {
-  background-color: lightcoral;
-  vertical-align: top;
-}
+  .quantity-clickable() {
+    display: inline-block;
+    vertical-align: top;
+    
+    img {
+      background-color: lightcoral;
+      vertical-align: top;
+    }
+  }
 
-.quantity-amount {
-  display: inline-block;
-  background-color: red;
-  font-size: 2.4em;
-  line-height: 1.2;
+  .quantity-minus {
+    .quantity-clickable();
+    transform: translate(-40%, 0);
+  }
+
+  .quantity-plus {
+    .quantity-clickable();
+    transform: translate(40%, 0);
+  }
+
+  .quantity-amount {
+    display: inline-block;
+    background-color: red;
+    font-size: 2.4em;
+    line-height: 1.2;
+    width: 2em;
+  }
 }
 </style>
