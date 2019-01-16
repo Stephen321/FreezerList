@@ -10,6 +10,7 @@
 import Search from './components/Search.vue'
 import Freezer from './components/Freezer.vue'
 import AddItem from './components/AddItem.vue'
+
 export default  {
   name: 'app',
   data() {
@@ -27,5 +28,7 @@ export default  {
 <style lang="less">
 body {
   font-size: 14px;
+  min-width: 220px;
+  max-width: 100em;
 }
 </style>

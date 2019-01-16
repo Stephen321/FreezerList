@@ -22,21 +22,14 @@ export default {
       ]
     }
   },
-  created() {
+  mounted() {
     this.tempRefreshList();
+    this.$root.$on("addedItem", item => this.freezerItems.push(item));
   },
   methods: {
     tempRefreshList() {
-      console.log("temp refresh list");
-      fetch(GetItemsUrl
-      /*, {
-      headers : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       }
-       */
-       )
-        .then(response => response.json())
+      fetch(GetItemsUrl)
+        .then(res => res.json())
         .then(data => {
           console.log(data);
           this.freezerItems = data;
@@ -55,7 +48,6 @@ export default {
   padding: 1em;
   margin: 1em;
   border: solid black 2px;
-  min-width: 220px;
 
   #freezer-list {
     padding: 0;
