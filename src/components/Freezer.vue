@@ -1,7 +1,7 @@
 <template>
-  <div id="freezer">
+  <div class="freezer">
     <button @click="tempRefreshList">Temp button refresh list</button>
-    <ul id="freezer-list">
+    <ul class="freezer-list">
       <FreezerItem 
       v-for="item in freezerItems"
       :item="item"
@@ -24,7 +24,14 @@ export default {
   },
   mounted() {
     this.tempRefreshList();
-    this.$root.$on("addedItem", item => this.freezerItems.push(item));
+    //TODO: add event names to constants.js? 
+    // TODO: similar to using eventbus, this emits event on root instance
+    // which is listened to by Freezer.vue. Better way of sharing state
+    // could be with props + events depending on the use case. Vuex could
+    // also be used.  
+    this.$root.$on("added-item", item => this.freezerItems.push(item));
+    this.$root.$on("increase-item", id => this.freezerItems.find(item => item.id == id).amount++);
+    this.$root.$on("decrease-item", id => this.freezerItems.find(item => item.id == id).amount--);
   },
   methods: {
     tempRefreshList() {
@@ -43,13 +50,13 @@ export default {
 </script>
 
 <style lang="less">
-#freezer {
+.freezer {
   background-color: darkcyan;
   padding: 1em;
   margin: 1em;
   border: solid black 2px;
 
-  #freezer-list {
+  .freezer-list {
     padding: 0;
     margin: 0 0;
     list-style: none;

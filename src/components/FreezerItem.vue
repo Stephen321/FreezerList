@@ -1,13 +1,14 @@
 <template>
   <li class="freezer-item">
     <img class="freezer-item-img" src="../assets/logo.png" alt="">
-    <div class="freezer-item-name"><span>{{ item.name }}</span></div>
-    <Quantity :amount="item.amount"/>
+    <div class="freezer-item-name"><span>{{ item.name }} {{ item.id }}</span></div>
+    <Quantity :amount="item.amount" @change="amountChanged"/>
   </li>
 </template>
 
 <script>
 import Quantity from './Quantity.vue'
+import { DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
 
 export default {
   name: 'FreezerItem',
@@ -15,6 +16,44 @@ export default {
     item:  {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    amountChanged(value) {
+      const ApiUrl = (value > 0) ? IncreaseItemUrl : DecreaseItemUrl;
+      const EventName = (value > 0) ? "increase-item" : "decrease-item";
+      // this.item.amount = 1111; //TODO: this shouldnt work on props but it does??
+      // maybe only locally and data doesnt change in parent
+      
+      fetch(ApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        // TODO: using json body for just 1 number okay?
+        body: JSON.stringify({ id: this.item.id})
+      }).then(res => {
+          if (res.status == 200) {
+            // TODO: same note as for emit in Freezer.vue except there it was the challenge
+            // of getting an event to a sibling component while this case is more straight 
+            // forward as the event has to go up 2 parents. (no need to use $root)
+            this.$root.$emit(EventName, this.item.id);
+            return "Server successfully increased/decreased item count. Emit " + EventName + " event.";
+          } 
+          return res.text();
+      }).then(info => {
+        console.log(info);
+        // TODO: remove this temporary html element output
+        const ID = "temp-err-div-quantity";
+        let errNode = document.createElement("div");
+        errNode.id = ID;
+        errNode.innerHTML = info;
+        errNode.style = "margin-top: 5px; background-color: indianred; border: solid darkred 3px;";
+        document.body.appendChild(errNode);
+        setTimeout(() => {
+          document.body.removeChild(errNode);
+        }, 5000);
+      });
     }
   },
   components: {
@@ -29,7 +68,6 @@ export default {
 .freezer-item {
   background-color: lightblue;
   border: solid black 2px;
-
   .freezer-item-img {
     display: block;
     margin: 0 auto;

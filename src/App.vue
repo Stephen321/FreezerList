@@ -27,8 +27,12 @@ export default  {
 
 <style lang="less">
 body {
-  font-size: 14px;
-  min-width: 220px;
-  max-width: 100em;
+  margin: 0;
+  #app {
+    font-size: 14px;
+    min-width: 220px;
+    max-width: 80em;
+    margin: 0 auto;
+  }
 }
 </style>

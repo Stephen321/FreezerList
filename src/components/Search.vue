@@ -1,6 +1,6 @@
 <template>
-  <div id="search">
-    <input id="search-box" type="text" name="name" placeholder="Search..."><br>
+  <div class="search">
+    <input class="search-box" type="text" name="name" placeholder="Search..."><br>
   </div>
 </template>
 
@@ -11,14 +11,14 @@ export default {
 </script>
 
 <style lang="less">
-#search {
+.search {
   background: darkcyan;
   margin: 1em;
   padding: 1em;
   border: solid black 2px;
 }
 
-#search-box {
+.search-box {
   border-radius: 10px;
   width: 100%;
   height: 2em;
