@@ -42,7 +42,10 @@ app.post('/api/add', (req, res, next) => {
       if (err) {
         res.json({error: true, info: err});
       } else {
-        console.log("Added item with id: " + this.lastID)
+        // this callback cant be arrow function as "this" would then be bound to the current 
+        // lexical scope rather than being reassignned to the sqlite3 Statement the callback
+        // is called in (which has lastID set)
+         console.log("Added item with id: " + this.lastID)
         res.json({error: false, id: this.lastID});
       }
     });
