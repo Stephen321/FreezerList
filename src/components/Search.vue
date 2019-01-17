@@ -1,6 +1,7 @@
 <template>
   <div class="search">
-    <input class="search-box" type="text" name="name" placeholder="Search..."><br>
+    <input class="search-box" type="text" name="name" placeholder="Search..."
+      @input="$emit('input', $event.target.value)"><br>
   </div>
 </template>
 
@@ -12,18 +13,18 @@ export default {
 
 <style lang="less">
 .search {
-  background: darkcyan;
-  margin: 1em;
+  background-color: grey;
   padding: 1em;
   border: solid black 2px;
+  margin-bottom: 1em;
+    
+  .search-box {
+    border-radius: 10px;
+    width: 100%;
+    height: 2em;
+    box-sizing: border-box;
+    border-radius: 5px;
+  }
 }
 
-.search-box {
-  border-radius: 10px;
-  width: 100%;
-  height: 2em;
-  margin-bottom: 1em;
-  box-sizing: border-box;
-  border-radius: 5px;
-}
 </style>

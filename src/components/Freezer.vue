@@ -1,9 +1,9 @@
 <template>
   <div class="freezer">
-    <button @click="tempRefreshList">Temp button refresh list</button>
+    <Search @input="searchString = $event"/>
     <ul class="freezer-list">
       <FreezerItem 
-      v-for="item in freezerItems"
+      v-for="item in sortedItems"
       :item="item"
       :key="item.id"/>
     </ul>
@@ -11,19 +11,39 @@
 </template>
 
 <script>
+import Search from './Search.vue'
 import FreezerItem from './FreezerItem.vue'
 import { GetItemsUrl } from '../constants.js'
+import Fuse from 'fuse.js'
+
+var fuse = new Fuse([], {
+  shouldSort: true,
+  threshold: 0.6,
+  keys: ["name"]
+});
 
 export default {
   name: 'Freezer',
   data() {
     return {
       freezerItems: [
-      ]
+      ],
+      searchString: ""
+    }
+  },
+  computed: {
+    sortedItems: function() {
+      fuse.setCollection(this.freezerItems);
+      const sortedResults = fuse.search(this.searchString);
+      const missingItems = this.freezerItems.filter(item => sortedResults.find(x => item.id == x.id) === undefined);
+      const result = sortedResults.concat(missingItems)
+      return result;
+      // If you want to not see the results Fuse didnt return:
+      //return (result.length == 0) ? this.freezerItems : result;
     }
   },
   mounted() {
-    this.tempRefreshList();
+    this.getItems();
     //TODO: add event names to constants.js? 
     // TODO: similar to using eventbus, this emits event on root instance
     // which is listened to by Freezer.vue. Better way of sharing state
@@ -34,16 +54,17 @@ export default {
     this.$root.$on("decrease-item", id => this.freezerItems.find(item => item.id == id).amount--);
   },
   methods: {
-    tempRefreshList() {
+    getItems() {
       fetch(GetItemsUrl)
         .then(res => res.json())
         .then(data => {
-          console.log(data);
+          console.log("Got item list.");
           this.freezerItems = data;
         });
     }
   },
   components: {
+    Search,
     FreezerItem
   }
 }
@@ -51,11 +72,6 @@ export default {
 
 <style lang="less">
 .freezer {
-  background-color: darkcyan;
-  padding: 1em;
-  margin: 1em;
-  border: solid black 2px;
-
   .freezer-list {
     padding: 0;
     margin: 0 0;

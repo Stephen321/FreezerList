@@ -61,9 +61,8 @@ export default {
 
 <style lang="less">
 .add-item {
-  background-color: darkcyan;
-  padding: 1em;
-  margin: 1em;
-  border: solid black 2px;
+  h1 {
+    text-align: center;
+  }
 }
 </style>

@@ -19,16 +19,16 @@ export default {
 </script>
 
 <style lang="less">
-@quantity-amount-width: 29%;
-@quantity-clickable-width: ((100% - @quantity-amount-width) / 2);
-
 .quantity {
+  @amount-width: 29%;
+  @clickable-width: ((100% - @amount-width) / 2);
+
   background-color: rgb(129, 209, 236);
 
   .quantity-clickable() {
     display: inline-block;
     vertical-align: top;
-    width: @quantity-clickable-width;
+    width: @clickable-width;
     text-align: center;
 
     img {
@@ -48,7 +48,7 @@ export default {
     text-align: center;
     font-size: 2.4em;
     line-height: 1.2;
-    width: @quantity-amount-width;
+    width: @amount-width;
   }
 
   .quantity-plus {

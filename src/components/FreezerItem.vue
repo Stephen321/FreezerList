@@ -10,6 +10,8 @@
 import Quantity from './Quantity.vue'
 import { DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
 
+//TODO: images should come from server and be uploaded when adding new items.
+// Stored on server filesystem with file paths in sqlite3 database.
 export default {
   name: 'FreezerItem',
   props: {
@@ -22,8 +24,6 @@ export default {
     amountChanged(value) {
       const ApiUrl = (value > 0) ? IncreaseItemUrl : DecreaseItemUrl;
       const EventName = (value > 0) ? "increase-item" : "decrease-item";
-      // this.item.amount = 1111; //TODO: this shouldnt work on props but it does??
-      // maybe only locally and data doesnt change in parent
       
       fetch(ApiUrl, {
         method: 'POST',
@@ -63,15 +63,18 @@ export default {
 </script>
 
 <style lang="less">
-@img-size: 200px;
-
 .freezer-item {
   background-color: lightblue;
   border: solid black 2px;
+
   .freezer-item-img {
+    @img-size: 200px;
+
     display: block;
     margin: 0 auto;
-    width: @img-size;
+    // TODO: wrap img in div so that div is always img-size x img-size and img is centered
+    // inside it?
+    //width: @img-size;
     height: @img-size;
   }
 
@@ -82,6 +85,7 @@ export default {
     text-align: center;
     line-height: 4em;
     max-height: 4em;
+
     span {
       display: inline-block;
       font-size: 2em;
