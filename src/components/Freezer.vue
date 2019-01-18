@@ -1,6 +1,6 @@
 <template>
   <div class="freezer">
-    <Search @input="searchString = $event"/>
+    <Search @input="onSearchInput"/>
     <ul class="freezer-list">
       <FreezerItem 
       v-for="item in displayItems"
@@ -61,17 +61,34 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$el);
     this.getItems();
     // TODO: add event names to constants.js? 
     // TODO: similar to using eventbus, this emits event on root instance
     // which is listened to by Freezer.vue. Better way of sharing state
     // could be with props + events depending on the use case. Vuex could
     // also be used.  
-    this.$root.$on("added-item", item => this.freezerItems.push(item));
+    this.$root.$on("added-item", item => {
+      this.freezerItems.push(item)
+      this.scrollToBottom(); 
+      //TODO: could also have a watch on this.freezerItems for length change
+    });
     this.$root.$on("increase-item", id => this.freezerItems.find(item => item.id == id).amount++);
     this.$root.$on("decrease-item", id => this.freezerItems.find(item => item.id == id).amount--);
   },
   methods: {
+    onSearchInput(value) {
+      this.searchString = value;
+      this.scrollToTop();
+    },
+  	scrollToTop() {    	
+      var container = this.$el.querySelector(".freezer-list");
+      container.scrollTop = 0;
+    },
+  	scrollToBottom() {    	
+      var container = this.$el.querySelector(".freezer-list");
+      container.scrollTop = container.scrollHeight;
+    },
     getItems() {
       fetch(GetItemsUrl)
         .then(res => res.json())
