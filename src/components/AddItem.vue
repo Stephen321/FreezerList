@@ -20,9 +20,10 @@ export default {
       // TODO:  e.target.elements... or v-model, which is better? v-model updates data 
       // on every input event, also need to store in data object even 
       // tho this component doesnt care about it after it was submitted
+      const elements = e.target.elements;
       const item = {
-        name: e.target.elements.name.value,
-        amount: parseInt(e.target.elements.amount.value)
+        name: elements.name.value,
+        amount: (elements.amount.value.length) ? parseInt(elements.amount.value) : 0
         };
         console.log(item);
       fetch(AddItemUrl, {
@@ -35,7 +36,7 @@ export default {
         .then(data => {
           let infoMessage;
           if (data.error) {
-            infoMessage = data.error;
+            infoMessage = data.info;
           }
           else {
             item.id = data.id;

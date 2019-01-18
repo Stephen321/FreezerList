@@ -1,8 +1,8 @@
 <template>
-  <li class="freezer-item">
+  <li class="freezer-item" :class="itemClass">
     <img class="freezer-item-img" src="../assets/logo.png" alt="">
-    <div class="freezer-item-name"><span>{{ item.name }} {{ item.id }}</span></div>
-    <Quantity :amount="item.amount" @change="amountChanged"/>
+    <div class="freezer-item-name"><span>{{ name }} {{ id }}</span></div>
+    <Quantity :amount="amount" @change="amountChanged"/>
   </li>
 </template>
 
@@ -15,10 +15,17 @@ import { DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
 export default {
   name: 'FreezerItem',
   props: {
-    item:  {
-      type: Object,
-      required: true
-    }
+    id:  { type: Number, required: true },
+    name:  { type: String, required: true },
+    amount:  { type: Number, required: true },
+    found:  { type: Boolean, required: true }
+  },
+  computed: {
+    itemClass() {
+      return {
+        'item-not-found': !this.found
+      }
+    },
   },
   methods: {
     amountChanged(value) {
@@ -31,13 +38,13 @@ export default {
           'Content-Type': 'application/json'
         },
         // TODO: using json body for just 1 number okay?
-        body: JSON.stringify({ id: this.item.id})
+        body: JSON.stringify({ id: this.id})
       }).then(res => {
           if (res.status == 200) {
             // TODO: same note as for emit in Freezer.vue except there it was the challenge
             // of getting an event to a sibling component while this case is more straight 
             // forward as the event has to go up 2 parents. (no need to use $root)
-            this.$root.$emit(EventName, this.item.id);
+            this.$root.$emit(EventName, this.id);
             return "Server successfully increased/decreased item count. Emit " + EventName + " event.";
           } 
           return res.text();
@@ -93,5 +100,11 @@ export default {
       line-height: 0.8;
     }
   }
+
+}
+
+.item-not-found {
+  border: solid 2px red;
+  filter: grayscale(80%);
 }
 </style>

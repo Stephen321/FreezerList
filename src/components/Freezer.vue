@@ -3,9 +3,14 @@
     <Search @input="searchString = $event"/>
     <ul class="freezer-list">
       <FreezerItem 
-      v-for="item in sortedItems"
-      :item="item"
+      v-for="item in displayItems"
+      :id="item.id"
+      :name="item.name"
+      :amount="item.amount"
+      :found="item.found"
       :key="item.id"/>
+      <!--TODO: pass whole "item" as object or each prop separately? passing item
+          meant .found/itemClass in child wasnt reactive.. -->
     </ul>
   </div>
 </template>
@@ -26,25 +31,38 @@ export default {
   name: 'Freezer',
   data() {
     return {
-      freezerItems: [
-      ],
+      freezerItems: [],
       searchString: ""
     }
   },
   computed: {
-    sortedItems: function() {
+    // display version of freezerItems are sorted by search and non-found items are
+    // indicated with "notFound" bool to be styled appropiately
+    // note: because objects in the arrays are references then freezerItems also 
+    // gets updated/sorted anyway
+    displayItems: function() {
       fuse.setCollection(this.freezerItems);
-      const sortedResults = fuse.search(this.searchString);
-      const missingItems = this.freezerItems.filter(item => sortedResults.find(x => item.id == x.id) === undefined);
-      const result = sortedResults.concat(missingItems)
-      return result;
+      let results = fuse.search(this.searchString);
+      let missingItems = [];
+      for (let item of this.freezerItems) {
+          const searchAlreadyFound = !!results.find(x => item.id == x.id);
+          // item.found will be used to apply the correct style
+          item.found = searchAlreadyFound || this.searchString === ""; 
+          if (searchAlreadyFound === false) {
+            //this item wasnt returned by the search so push it onto that array
+            missingItems.push(item);
+          }
+      }
+      results = results.concat(missingItems);
+      console.log(results);
+      return results;
       // If you want to not see the results Fuse didnt return:
       //return (result.length == 0) ? this.freezerItems : result;
     }
   },
   mounted() {
     this.getItems();
-    //TODO: add event names to constants.js? 
+    // TODO: add event names to constants.js? 
     // TODO: similar to using eventbus, this emits event on root instance
     // which is listened to by Freezer.vue. Better way of sharing state
     // could be with props + events depending on the use case. Vuex could
@@ -73,14 +91,14 @@ export default {
 <style lang="less">
 .freezer {
   .freezer-list {
-    padding: 0;
+    padding: 1ex;
     margin: 0 0;
     list-style: none;
     background-color: cornflowerblue;
     border: solid black 2px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    grid-gap: 10px 10px;
+    grid-gap: 1em;
     max-height: 44em;
     overflow-y: auto;
   }

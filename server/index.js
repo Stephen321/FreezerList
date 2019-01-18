@@ -34,7 +34,7 @@ app.get('/api/\\d+$', (req, res) => {
 app.post('/api/add', (req, res, next) => {
   const sql = "INSERT INTO Items (name, amount) VALUES (?, ?);";
   const name = req.body.name;
-  const amount = req.body.amount;
+  const amount = (req.body.amount === null) ? 0 : req.body.amount;
   console.log("Name: " + name);
   console.log("Amount: " + amount);
   if (name.length > 0) { 
@@ -51,7 +51,7 @@ app.post('/api/add', (req, res, next) => {
     });
   }
   else {  
-    throw new Error("Name can't be empty when adding new item.");
+    res.json({error: true, info: new Error("Name can't be empty when adding new item.").stack});
   }
 });
 
