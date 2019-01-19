@@ -114,6 +114,7 @@ export default {
     grid-gap: 1em;
     max-height: 44em;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 </style>

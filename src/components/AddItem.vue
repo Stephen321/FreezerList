@@ -2,8 +2,8 @@
   <div class="add-item">
     <h1>Add new item</h1>
     <form @submit.prevent="addItem">
-      <label>Item name:</label> <input type="text" name="name"><br>
-      <label>Amount:</label> <input type="number" name="amount"><br>
+      <label>Item name:</label> <input type="text" name="name" required pattern="[A-Za-z]" maxlength="50"><br>
+      <label>Amount:</label> <input type="number" name="amount" required min="1" max="999"><br>
       <button type="submit">Add new item</button>
     </form>
   </div>
