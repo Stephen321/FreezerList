@@ -1,8 +1,8 @@
 <template>
-  <div class="freezer">
+  <div class="list">
     <Search @input="onSearchInput"/>
-    <ul class="freezer-list">
-      <FreezerItem 
+    <ul class="list-grid">
+      <Item 
       v-for="item in displayItems"
       :id="item.id"
       :name="item.name"
@@ -17,7 +17,7 @@
 
 <script>
 import Search from './Search.vue'
-import FreezerItem from './FreezerItem.vue'
+import Item from './Item.vue'
 import { GetItemsUrl } from '../constants.js'
 import Fuse from 'fuse.js'
 
@@ -28,23 +28,23 @@ var fuse = new Fuse([], {
 });
 
 export default {
-  name: 'Freezer',
+  name: 'List',
   data() {
     return {
-      freezerItems: [],
+      listItems: [],
       searchString: ""
     }
   },
   computed: {
-    // display version of freezerItems are sorted by search and non-found items are
+    // display version of listItems are sorted by search and non-found items are
     // indicated with "notFound" bool to be styled appropiately
-    // note: because objects in the arrays are references then freezerItems also 
+    // note: because objects in the arrays are references then listItems also 
     // gets updated/sorted anyway
     displayItems: function() {
-      fuse.setCollection(this.freezerItems);
+      fuse.setCollection(this.listItems);
       let results = fuse.search(this.searchString);
       let missingItems = [];
-      for (let item of this.freezerItems) {
+      for (let item of this.listItems) {
           const searchAlreadyFound = !!results.find(x => item.id == x.id);
           // item.found will be used to apply the correct style
           item.found = searchAlreadyFound || this.searchString === ""; 
@@ -57,24 +57,20 @@ export default {
       console.log(results);
       return results;
       // If you want to not see the results Fuse didnt return:
-      //return (result.length == 0) ? this.freezerItems : result;
+      //return (result.length == 0) ? this.listItems : result;
     }
   },
   mounted() {
     console.log(this.$el);
     this.getItems();
     // TODO: add event names to constants.js? 
-    // TODO: similar to using eventbus, this emits event on root instance
-    // which is listened to by Freezer.vue. Better way of sharing state
-    // could be with props + events depending on the use case. Vuex could
-    // also be used.  
     this.$root.$on("added-item", item => {
-      this.freezerItems.push(item)
+      this.listItems.push(item)
       this.scrollToBottom(); 
-      //TODO: could also have a watch on this.freezerItems for length change
+      //TODO: could also have a watch on this.listItems for length change
     });
-    this.$root.$on("increase-item", id => this.freezerItems.find(item => item.id == id).amount++);
-    this.$root.$on("decrease-item", id => this.freezerItems.find(item => item.id == id).amount--);
+    this.$root.$on("increase-item", id => this.listItems.find(item => item.id == id).amount++);
+    this.$root.$on("decrease-item", id => this.listItems.find(item => item.id == id).amount--);
   },
   methods: {
     onSearchInput(value) {
@@ -94,20 +90,20 @@ export default {
         .then(res => res.json())
         .then(data => {
           console.log("Got item list.");
-          this.freezerItems = data;
+          this.listItems = data;
         });
     }
   },
   components: {
     Search,
-    FreezerItem
+    Item
   }
 }
 </script>
 
 <style lang="less">
-.freezer {
-  .freezer-list {
+.list {
+  .list-grid {
     padding: 1ex;
     margin: 0 0;
     list-style: none;

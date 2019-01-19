@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <Freezer class="panel"/>
+    <List class="panel"/>
     <AddItem class="panel"/>
   </div>
 </template>
 
 <script>
-import Freezer from './components/Freezer.vue'
+import List from './components/List.vue'
 import AddItem from './components/AddItem.vue'
 
 export default  {
@@ -16,7 +16,7 @@ export default  {
     }
   },
   components: {
-    Freezer,
+    List,
     AddItem
   }
 }

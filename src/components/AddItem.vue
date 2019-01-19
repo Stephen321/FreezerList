@@ -40,6 +40,10 @@ export default {
           }
           else {
             item.id = data.id;
+            // TODO: similar to using eventbus, this emits event on root instance
+            // which is listened to by List.vue. Better way of sharing state
+            // could be with props + events depending on the use case. Vuex could
+            // also be used.  
             this.$root.$emit("added-item", item);
             infoMessage = "Server successfully added item. Emit added-item event. temp.";
           }

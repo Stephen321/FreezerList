@@ -1,7 +1,7 @@
 <template>
-  <li class="freezer-item" :class="itemClass">
-    <img class="freezer-item-img" src="../assets/logo.png" alt="">
-    <div class="freezer-item-name"><span>{{ name }} {{ id }}</span></div>
+  <li class="item" :class="itemClass">
+    <img class="item-img" src="../assets/logo.png" alt="">
+    <div class="item-name"><span>{{ name }} {{ id }}</span></div>
     <Quantity :amount="amount" @change="amountChanged"/>
   </li>
 </template>
@@ -13,7 +13,7 @@ import { DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
 //TODO: images should come from server and be uploaded when adding new items.
 // Stored on server filesystem with file paths in sqlite3 database.
 export default {
-  name: 'FreezerItem',
+  name: 'Item',
   props: {
     id:  { type: Number, required: true },
     name:  { type: String, required: true },
@@ -41,7 +41,7 @@ export default {
         body: JSON.stringify({ id: this.id})
       }).then(res => {
           if (res.status == 200) {
-            // TODO: same note as for emit in Freezer.vue except there it was the challenge
+            // TODO: same note as for emit in List.vue except there it was the challenge
             // of getting an event to a sibling component while this case is more straight 
             // forward as the event has to go up 2 parents. (no need to use $root)
             this.$root.$emit(EventName, this.id);
@@ -70,11 +70,11 @@ export default {
 </script>
 
 <style lang="less">
-.freezer-item {
+.item {
   background-color: lightblue;
   border: solid black 2px;
 
-  .freezer-item-img {
+  .item-img {
     @img-size: 200px;
 
     display: block;
@@ -85,7 +85,7 @@ export default {
     height: @img-size;
   }
 
-  .freezer-item-name {
+  .item-name {
     background-color: lightcyan;
     border-style: solid;
     border-width: 2px 0;
