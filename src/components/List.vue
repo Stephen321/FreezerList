@@ -54,14 +54,12 @@ export default {
           }
       }
       results = results.concat(missingItems);
-      console.log(results);
       return results;
       // If you want to not see the results Fuse didnt return:
       //return (result.length == 0) ? this.listItems : result;
     }
   },
   mounted() {
-    console.log(this.$el);
     this.getItems();
     // TODO: add event names to constants.js? 
     this.$root.$on("added-item", item => {
@@ -78,18 +76,17 @@ export default {
       this.scrollToTop();
     },
   	scrollToTop() {    	
-      var container = this.$el.querySelector(".freezer-list");
+      var container = this.$el.querySelector(".list-grid");
       container.scrollTop = 0;
     },
   	scrollToBottom() {    	
-      var container = this.$el.querySelector(".freezer-list");
+      var container = this.$el.querySelector(".list-grid");
       container.scrollTop = container.scrollHeight;
     },
     getItems() {
       fetch(GetItemsUrl)
         .then(res => res.json())
         .then(data => {
-          console.log("Got item list.");
           this.listItems = data;
         });
     }

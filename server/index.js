@@ -3,6 +3,7 @@ const cors = require('cors')
 const app = express();
 const port = 3000;
 const sqlite3 = require('sqlite3').verbose();
+const multer = require('multer');
 
 let db = new sqlite3.Database(':memory:', err => {
   if (err) {
@@ -20,7 +21,7 @@ let db = new sqlite3.Database(':memory:', err => {
 
 // TODO: use express.Router instead of repeating /api
 
-app.use(cors())
+app.use(cors());
 app.use(express.static('dist'));
 app.use('/api/add', express.json());
 app.use('/api/increase', express.json());
@@ -30,11 +31,18 @@ app.get('/api/\\d+$', (req, res) => {
   res.send(`Did a test GET for /api/${req.params.id}!`);
 });
 
-//POST
-app.post('/api/add', (req, res, next) => {
+// POST
+// TODO: middleware in these functions instead of app.use?
+// TODO: .single(<NAME>). <NAME> has to be the same as the "name" in formdata from browser
+app.post('/api/add', multer({ dest: 'uploads/' }).single("image"), (req, res, next) => {
   const sql = "INSERT INTO Items (name, amount) VALUES (?, ?);";
-  const name = req.body.name;
-  const amount = (req.body.amount === null) ? 0 : req.body.amount;
+  const info = JSON.parse(req.body.info);
+  const name = info.name;
+  const amount = (info.amount === null) ? 0 : info.amount;
+  
+  // TODO: got the file parsed by multer, 
+  console.log(req.file);
+
   console.log("Name: " + name);
   console.log("Amount: " + amount);
   if (name.length > 0) { 
@@ -55,7 +63,7 @@ app.post('/api/add', (req, res, next) => {
   }
 });
 
-//TODO: could DRY these increase/decrease
+// TODO: could DRY these increase/decrease
 app.post('/api/increase', (req, res, next) => {
   const sql = "UPDATE Items SET amount = amount + 1 WHERE id = ?";
   const id = req.body.id;
@@ -93,7 +101,7 @@ app.post('/api/decrease', (req, res, next) => {
   });
 });
 
-//GET
+// GET
 app.get('/api/get-items', (req, res, next) => {
   const sql = "SELECT * FROM Items;";
   db.all(sql, [], (err, rows) => {

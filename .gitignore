@@ -19,3 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
+
+
+# development created upload image directory (multer + expressjs)
+uploads/

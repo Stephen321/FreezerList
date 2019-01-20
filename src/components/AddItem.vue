@@ -4,7 +4,9 @@
     <form @submit.prevent="addItem">
       <label>Item name:</label> <input type="text" name="name" required pattern="[A-Za-z]+" maxlength="50"><br>
       <label>Amount:</label> <input type="number" name="amount" required min="1" max="999"><br>
+      <input type="file" id="take-picture" accept="image/*" value="">
       <button type="submit">Add new item</button>
+      <img :src="previewImage" alt="">
     </form>
   </div>
 </template>
@@ -14,6 +16,11 @@ import { AddItemUrl } from '../constants.js'
 
 export default {
   name: 'AddItem',
+  data() {
+    return {
+      previewImage: ""
+    }
+  },
   methods: {
     addItem(e) {
       console.log("Client sending POST request to add new item.");
@@ -25,13 +32,32 @@ export default {
         name: elements.name.value,
         amount: (elements.amount.value.length) ? parseInt(elements.amount.value) : 0
         };
-        console.log(item);
+        
+      let fileInput = this.$el.querySelector("input[type='file'");
+      const image = fileInput.files[0];
+      let formData = new FormData();
+      formData.append("image", image);
+
+      console.log("image: ", image);
+      // TODO.wip: preview image, need to do this onchange of input not here and also
+      // style correctly
+      this.previewImage = URL.createObjectURL(image); 
+
+      // TODO: following doesn't work so straightforward as the separate "part" in the 
+      // request body doesn't getthe content-type json and "multer" on the server probably
+      // doesnt know how to parse json and would take the entire string as just a single
+      // value (use json.parse on server). multer probably wouldnt use express.json() to
+      // parse it anyway? (it would still have other parts to do after) 
+      formData.append("info", JSON.stringify(item));
+      
       fetch(AddItemUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(item)
+        //headers: { // TODO: switching to use multipart/form-data so can upload image +
+                     // other data in one request
+        //  'Content-Type': 'application/json'
+        //},
+        //body: fileInput.files[0] // TODO: this was no longer working?
+        body: formData
       }).then(res => res.json())
         .then(data => {
           let infoMessage;
@@ -66,8 +92,6 @@ export default {
 
 <style lang="less">
 .add-item {
-  h1 {
-    text-align: center;
-  }
+  
 }
 </style>
