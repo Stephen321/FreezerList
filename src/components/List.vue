@@ -7,10 +7,12 @@
       :id="item.id"
       :name="item.name"
       :amount="item.amount"
+      :path="item.path"
       :found="item.found"
       :key="item.id"/>
       <!--TODO: pass whole "item" as object or each prop separately? passing item
-          meant .found/itemClass in child wasnt reactive.. -->
+          meant .found/itemClass in child wasnt reactive.. but passing each separately
+          is longer and more difficult to maintain. -->
     </ul>
   </div>
 </template>

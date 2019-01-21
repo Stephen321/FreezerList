@@ -1,6 +1,6 @@
 <template>
   <li class="item" :class="itemClass">
-    <img class="item-img" src="../assets/logo.png" alt="">
+    <img class="item-img" :src="path" alt="">
     <div class="item-name"><span>{{ name }} {{ id }}</span></div>
     <Quantity :amount="amount" @change="amountChanged"/>
   </li>
@@ -10,6 +10,8 @@
 import Quantity from './Quantity.vue'
 import { DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
 
+//TODO.feature: delete X and confirmation overlay (only within component)
+
 //TODO: images should come from server and be uploaded when adding new items.
 // Stored on server filesystem with file paths in sqlite3 database.
 export default {
@@ -18,6 +20,7 @@ export default {
     id:  { type: Number, required: true },
     name:  { type: String, required: true },
     amount:  { type: Number, required: true },
+    path:  { type: String, required: true },
     found:  { type: Boolean, required: true }
   },
   computed: {
@@ -50,16 +53,6 @@ export default {
           return res.text();
       }).then(info => {
         console.log(info);
-        // TODO: remove this temporary html element output
-        const ID = "temp-err-div-quantity";
-        let errNode = document.createElement("div");
-        errNode.id = ID;
-        errNode.innerHTML = info;
-        errNode.style = "margin-top: 5px; background-color: indianred; border: solid darkred 3px;";
-        document.body.appendChild(errNode);
-        setTimeout(() => {
-          document.body.removeChild(errNode);
-        }, 5000);
       });
     }
   },
@@ -81,7 +74,7 @@ export default {
     margin: 0 auto;
     // TODO: wrap img in div so that div is always img-size x img-size and img is centered
     // inside it?
-    //width: @img-size;
+    width: 100%;
     height: @img-size;
   }
 
