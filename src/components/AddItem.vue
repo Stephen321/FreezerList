@@ -2,11 +2,11 @@
   <div class="add-item">
     <h1>Add new item</h1>
     <form @submit.prevent="addItem">
-      <label>Item name:</label> <input type="text" name="name" required pattern="[A-Za-z]+" maxlength="50"><br>
-      <label>Amount:</label> <input type="number" name="amount" min="0" max="999"><br>
-      <input type="file" name="image" accept="image/*" @change="onImageChange">
+      <label for="name">Item name:</label> <input type="text" name="name" required pattern="[A-Za-z]+" maxlength="50"><br>
+      <label for="amount"> Amount:</label> <input type="number" name="amount" min="0" max="999"><br>
+      <label for="image"> Image:</label> <input type="file" name="image" accept="image/*" @change="onImageChange">
+      <img class="preview-image" :src="previewImageURL" alt="">
       <button type="submit">Add new item</button>
-      <img :src="previewImageURL" alt="">
     </form>
   </div>
 </template>
@@ -89,6 +89,44 @@ export default {
 
 <style lang="less">
 .add-item {
+  font-size: 1.2em;
+
+  .preview-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 30em;
+    margin-top: 1em;
+    border: dashed 1px gray;
+    box-shadow: 1px 2px 5px lighten(black, 25%)
+  }
   
+  // TODO: use classes
+  button {
+    @color-top: #44d4f8;
+    @color-bottom: #04464b;
+    @color-text: rgb(255, 200, 97);
+
+    border: solid 1px black;
+    background: linear-gradient(@color-top, @color-bottom);
+    color: @color-text;
+    margin-top: 1em;
+    width: 100%;
+    height: 2em;
+    box-sizing: border-box;
+    font-size: 1.5em;
+    padding: 0;
+
+    &:hover {
+      @hovered-lighten-pct: 15%;
+
+      cursor: grab;
+      background: linear-gradient(lighten(@color-top, @hovered-lighten-pct), @color-bottom);
+    }
+  }
+
+  input[type="file"] {
+    
+  }
 }
 </style>
