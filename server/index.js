@@ -136,7 +136,7 @@ app.post('/api/increase', (req, res, next) => {
 });
 
 app.post('/api/decrease', (req, res, next) => {
-  const sql = "UPDATE Items SET amount = amount - 1 WHERE id = ?";
+  const sql = "UPDATE Items SET amount = amount - 1 WHERE id = ? AND amount > 0";
   const id = req.body.id;
   console.log("id: " + id);
   console.log("Decrease");

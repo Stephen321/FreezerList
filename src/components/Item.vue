@@ -1,6 +1,14 @@
 <template>
   <li class="item" :class="itemClass">
-    <img class="item-img" :src="path" alt="">
+    <div class="item-img-wrapper">  
+      <img class="item-img" :src="path" alt="">
+      <div class="item-img-delete-overlay">
+        <img src="../assets/delete.png" alt="">
+        <span>Are you sure?</span>
+        <img src="../assets/yes.png" alt="">
+        <img src="../assets/no.png" alt="">
+      </div>
+    </div>
     <div class="item-name"><span>{{ name }} {{ id }}</span></div>
     <Quantity :amount="amount" @change="amountChanged"/>
   </li>
@@ -31,10 +39,18 @@ export default {
     },
   },
   methods: {
+    onDeleteClick() {
+      console.log("onDeleteClick");
+    },
     amountChanged(value) {
       const ApiUrl = (value > 0) ? IncreaseItemUrl : DecreaseItemUrl;
       const EventName = (value > 0) ? "increase-item" : "decrease-item";
       
+      if (this.amount + value < 0) {
+        console.log("Can't decrease item below 0");
+        return;
+      }
+
       fetch(ApiUrl, {
         method: 'POST',
         headers: {
@@ -64,18 +80,43 @@ export default {
 
 <style lang="less">
 .item {
+  @img-wrapper-size: 200px;
+
   background-color: lightblue;
   border: solid black 2px;
 
-  .item-img {
-    @img-size: 200px;
+  .item-img-wrapper {
+    height: @img-wrapper-size;
+    text-align: center;
+    position: relative; // needs to not be static so it counts as "static" for the overlay absolute
 
-    display: block;
-    margin: 0 auto;
-    // TODO: wrap img in div so that div is always img-size x img-size and img is centered
-    // inside it?
-    width: 100%;
-    height: @img-size;
+    .item-img {
+      //width: 100%;
+      height: 100%;
+    }
+
+    // TODO: separate component for this not inside img-wrapper div?
+    .item-img-delete-overlay {
+      z-index: 10;
+      text-align: initial;
+      position: absolute;
+      top: 0px;
+      //transform: translateY(-@img-wrapper-size);
+      width: 100%;
+      height: 100%;
+
+      > img {
+        float: right;
+        width: 14%;
+        filter: drop-shadow(1px 1px 1px black);
+
+        &[src*='delete'] { // TODO: need classes for these
+          // TODO: too much nesting
+          padding-top: 1px;
+          padding-right: 2px;
+        }
+      }
+    }
   }
 
   .item-name {

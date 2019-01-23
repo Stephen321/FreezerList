@@ -42,8 +42,11 @@ export default {
         };
         
       let formData = new FormData();
-      formData.append("image", elements.image.files[0]);
-
+      if (elements.image.files.length > 0) {
+        // no image will result with server setting path to "default" which once it returns
+        // will be set by the client to the default image file
+        formData.append("image", elements.image.files[0]);
+      }
       // TODO: following doesn't work so straightforward as the separate "part" in the 
       // request body doesn't getthe content-type json and "multer" on the server probably
       // doesnt know how to parse json and would take the entire string as just a single
@@ -97,8 +100,8 @@ export default {
     max-width: 100%;
     max-height: 30em;
     margin-top: 1em;
-    border: dashed 1px gray;
-    box-shadow: 1px 2px 5px lighten(black, 25%)
+    border: dashed 1px black;
+    //box-shadow: 1px 2px 5px lighten(black, 25%)
   }
   
   // TODO: use classes

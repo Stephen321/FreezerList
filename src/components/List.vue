@@ -110,10 +110,11 @@ export default {
     border: solid black 2px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    //grid-template-columns: repeat(3, minmax(210px, 1fr));
     grid-gap: 1em;
     max-height: 44em;
-    overflow-y: auto;
     overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 </style>
