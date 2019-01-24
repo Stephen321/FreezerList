@@ -17,6 +17,9 @@ export default {
   padding: 1em;
   border: solid black 2px;
   margin-bottom: 1em;
+  position: sticky;
+  top: 0px;
+  z-index: 100;
     
   .search-box {
     border-radius: 10px;

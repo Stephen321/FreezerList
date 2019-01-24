@@ -109,10 +109,10 @@ export default {
     background-color: cornflowerblue;
     border: solid black 2px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     //grid-template-columns: repeat(3, minmax(210px, 1fr));
     grid-gap: 1em;
-    max-height: 44em;
+    //max-height: 66em;
     overflow-x: hidden;
     overflow-y: auto;
   }

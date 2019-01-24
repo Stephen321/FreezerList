@@ -3,10 +3,12 @@
     <div class="item-img-wrapper">  
       <img class="item-img" :src="path" alt="">
       <div class="item-img-delete-overlay">
-        <img src="../assets/delete.png" alt="">
-        <span>Are you sure?</span>
-        <img src="../assets/yes.png" alt="">
-        <img src="../assets/no.png" alt="">
+        <img @click="dialogHidden = false" class="item-img-delete-btn" :class="{'hidden-dialog': !this.dialogHidden}" src="../assets/delete.png" alt="">
+        <div class="delete-confirmation-dialog" :class="{'hidden-dialog': this.dialogHidden}">
+          <span>Are you sure?</span><br>
+          <img src="../assets/yes.png" alt="">
+          <img @click="dialogHidden = true" src="../assets/no.png" alt="">
+        </div>
       </div>
     </div>
     <div class="item-name"><span>{{ name }} {{ id }}</span></div>
@@ -31,12 +33,17 @@ export default {
     path:  { type: String, required: true },
     found:  { type: Boolean, required: true }
   },
+  data() {
+    return {
+      dialogHidden: true
+    }
+  },
   computed: {
     itemClass() {
       return {
         'item-not-found': !this.found
       }
-    },
+    }
   },
   methods: {
     onDeleteClick() {
@@ -80,7 +87,7 @@ export default {
 
 <style lang="less">
 .item {
-  @img-wrapper-size: 200px;
+  @img-wrapper-size: 255px;
 
   background-color: lightblue;
   border: solid black 2px;
@@ -91,7 +98,7 @@ export default {
     position: relative; // needs to not be static so it counts as "static" for the overlay absolute
 
     .item-img {
-      //width: 100%;
+      width: 100%;
       height: 100%;
     }
 
@@ -105,15 +112,35 @@ export default {
       width: 100%;
       height: 100%;
 
-      > img {
+      .item-img-delete-btn {
         float: right;
         width: 14%;
+        max-width: 2.5em;
         filter: drop-shadow(1px 1px 1px black);
+        padding-top: 1px;
+        padding-right: 2px;
+        // TODO: too much nesting
+      }
 
-        &[src*='delete'] { // TODO: need classes for these
-          // TODO: too much nesting
-          padding-top: 1px;
-          padding-right: 2px;
+      .delete-confirmation-dialog {
+        width: 100%;
+        text-align: center;
+        //clear: right;
+        position: absolute;
+        top: 50%; 
+        transform: translateY(-50%);
+        // TODO: is it bad to have multiple absolutely position divs inside each other
+        // (positoned relative to "item-img-delete-overlay" as if not then the floated
+        // delete button would push this down)
+
+        span {
+          background-color: lightcyan;
+        }
+        img {
+          vertical-align: middle;
+          max-width: 2.5em;
+          margin: 1em 1em 0 1em;
+          filter: drop-shadow(1px 1px 1px black);
         }
       }
     }
@@ -129,7 +156,7 @@ export default {
 
     span {
       display: inline-block;
-      font-size: 2em;
+      font-size: 1.5em;
       vertical-align: middle;
       line-height: 0.8;
     }
@@ -140,5 +167,9 @@ export default {
 .item-not-found {
   border: solid 2px red;
   filter: grayscale(80%);
+}
+
+.hidden-dialog {
+  visibility: hidden;
 }
 </style>

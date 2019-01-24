@@ -30,9 +30,7 @@ export default {
     vertical-align: top;
     width: @clickable-width;
     text-align: center;
-
     img {
-      background-color: lightcoral;
       vertical-align: top;
     }
   }
@@ -44,7 +42,8 @@ export default {
 
   .quantity-amount {
     display: inline-block;
-    background-color: red;
+    background-color: darkslategrey;
+    color: white;
     text-align: center;
     font-size: 2.4em;
     line-height: 1.2;
