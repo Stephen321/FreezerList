@@ -69,8 +69,15 @@ export default {
       this.scrollToBottom(); 
       //TODO: could also have a watch on this.listItems for length change
     });
-    this.$root.$on("increase-item", id => this.listItems.find(item => item.id == id).amount++);
-    this.$root.$on("decrease-item", id => this.listItems.find(item => item.id == id).amount--);
+    this.$root.$on("removed-item", id => {
+      this.listItems.splice(this.listItems.findIndex(item => item.id === id), 1);
+    });
+    this.$root.$on("increase-item", id => {
+      this.listItems.find(item => item.id === id).amount++
+    });
+    this.$root.$on("decrease-item", id => {
+      this.listItems.find(item => item.id === id).amount--
+    });
   },
   methods: {
     onSearchInput(value) {

@@ -1,9 +1,10 @@
+const fs = require('fs')
 const express = require('express')
 const cors = require('cors')
 const app = express();
 const Port = 3000;
-const sqlite3 = require('sqlite3').verbose();
-const multer = require('multer');
+const sqlite3 = require('sqlite3').verbose()
+const multer = require('multer')
 
 
 //-------------------------------------
@@ -68,6 +69,7 @@ app.use(express.static('dist'));
 app.use(express.static('uploads'));
 
 app.use('/api/add', express.json());
+app.use('/api/remove', express.json());
 app.use('/api/increase', express.json());
 app.use('/api/decrease', express.json());
 
@@ -78,8 +80,7 @@ app.use('/api/decrease', express.json());
 // POST
 // TODO: middleware in these functions instead of app.use for all routes?
 // TODO: .single(<NAME>). <NAME> has to be the same as the "name" in formdata from browser
-app.post('/api/add', upload, (req, res, next) => {
-  console.log();
+app.post('/api/add', upload, (req, res) => {
   const sql = "INSERT INTO Items (name, amount, path) VALUES (?, ?, ?);";
   const info = JSON.parse(req.body.info);
   const name = info.name;
@@ -112,6 +113,25 @@ app.post('/api/add', upload, (req, res, next) => {
   else {  
     res.json({error: true, info: new Error("Name can't be empty when adding new item.").stack});
   }
+});
+
+app.post('/api/remove', (req, res) => {
+  // TODO:  remove the file also using fs
+  // https://nodejs.org/api/fs.html#fs_fs_unlink_path_callback
+
+  const sql = "DELETE FROM Items WHERE id = ?;";
+  //const id = JSON.parse(req.body.info);
+  const id = req.body.id;
+  
+  console.log("id to remove: " + id);
+  db.run(sql, [id], function (err) { 
+    if (err) {
+      res.json({error: true, info: err});
+    } else {
+      console.log("Removed item with id: " + this.lastID)
+      res.json({error: false});
+    }
+  });
 });
 
 // TODO: could DRY these increase/decrease

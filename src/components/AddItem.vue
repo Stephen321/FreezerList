@@ -2,7 +2,7 @@
   <div class="add-item">
     <h1>Add new item</h1>
     <form @submit.prevent="addItem">
-      <label for="name">Item name:</label> <input type="text" name="name" required pattern="[A-Za-z]+" maxlength="50"><br>
+      <label for="name">Item name:</label> <input type="text" name="name" required pattern="[A-Za-z ]+" maxlength="50"><br>
       <label for="amount"> Amount:</label> <input type="number" name="amount" min="0" max="999"><br>
       <label for="image"> Image:</label> <input type="file" name="image" accept="image/*" @change="onImageChange">
       <img class="preview-image" :src="previewImageURL" alt="">
@@ -75,7 +75,7 @@ export default {
             // to prevent another request and waiting for data to come back. However,
             // file paths are easier and file system is there for that. (and less memory)
             item.path = (data.path === "default") ? defaultImage : data.path; //get the image path on the server
-
+            console.log("item.path is now: " , item.path, ". data.path was: ", data.path, " and defaultImage: ", defaultImage);
             console.log("Server has added item: ", item);
 
             // TODO: similar to using eventbus, this emits event on root instance

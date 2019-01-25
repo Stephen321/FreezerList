@@ -1,12 +1,12 @@
 <template>
-  <li class="item" :class="itemClass">
+  <li class="item" :class="itemClass" @mouseleave="dialogHidden = true">
     <div class="item-img-wrapper">  
       <img class="item-img" :src="path" alt="">
       <div class="item-img-delete-overlay">
         <img @click="dialogHidden = false" class="item-img-delete-btn" :class="{'hidden-dialog': !this.dialogHidden}" src="../assets/delete.png" alt="">
         <div class="delete-confirmation-dialog" :class="{'hidden-dialog': this.dialogHidden}">
           <span>Are you sure?</span><br>
-          <img src="../assets/yes.png" alt="">
+          <img @click="onDelete" src="../assets/yes.png" alt="">
           <img @click="dialogHidden = true" src="../assets/no.png" alt="">
         </div>
       </div>
@@ -18,7 +18,7 @@
 
 <script>
 import Quantity from './Quantity.vue'
-import { DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
+import { RemoveItemUrl, DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
 
 //TODO.feature: delete X and confirmation overlay (only within component)
 
@@ -46,8 +46,26 @@ export default {
     }
   },
   methods: {
-    onDeleteClick() {
+    onDelete() {
       console.log("onDeleteClick");
+      
+      fetch(RemoveItemUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: this.id})
+      }).then(res => res.json())
+        .then(data => {
+          let infoMessage;
+          if (data.error) {
+            console.error(data.info);
+          }
+          else {
+            console.log("Server successfully removed item with id: ", this.id);
+            this.$root.$emit("removed-item", this.id);
+          }
+      });
     },
     amountChanged(value) {
       const ApiUrl = (value > 0) ? IncreaseItemUrl : DecreaseItemUrl;
@@ -172,4 +190,5 @@ export default {
 .hidden-dialog {
   visibility: hidden;
 }
+
 </style>
