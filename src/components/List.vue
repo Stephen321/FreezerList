@@ -120,8 +120,8 @@ export default {
     //grid-template-columns: repeat(3, minmax(210px, 1fr));
     grid-gap: 1em;
     //max-height: 66em;
+    //overflow-y: auto;
     overflow-x: hidden;
-    overflow-y: auto;
   }
 }
 </style>

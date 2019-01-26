@@ -91,7 +91,7 @@ app.post('/api/add', upload, (req, res) => {
   // https://stackoverflow.com/a/17697134
   // https://stackoverflow.com/questions/10183291/how-to-get-the-full-url-in-express
   const path = (req.file === undefined) 
-    ? "default" 
+    ? info.path 
     : req.protocol + '://' + req.headers.host + '/' + req.file.filename; //req.file.path;
 
   console.log("Name: " + name);

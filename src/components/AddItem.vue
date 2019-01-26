@@ -38,7 +38,8 @@ export default {
       const elements = e.target.elements;
       const item = {
         name: elements.name.value,
-        amount: (elements.amount.value.length) ? parseInt(elements.amount.value) : 0
+        amount: (elements.amount.value.length) ? parseInt(elements.amount.value) : 0,
+        path: defaultImage
         };
         
       let formData = new FormData();
@@ -74,8 +75,7 @@ export default {
             // TODO: could store URL or File/Blob here instead for server to send
             // to prevent another request and waiting for data to come back. However,
             // file paths are easier and file system is there for that. (and less memory)
-            item.path = (data.path === "default") ? defaultImage : data.path; //get the image path on the server
-            console.log("item.path is now: " , item.path, ". data.path was: ", data.path, " and defaultImage: ", defaultImage);
+            item.path = data.path; //get the image path set on the server
             console.log("Server has added item: ", item);
 
             // TODO: similar to using eventbus, this emits event on root instance
