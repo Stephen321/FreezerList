@@ -19,6 +19,7 @@
 <script>
 import Quantity from './Quantity.vue'
 import { RemoveItemUrl, DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
+import defaultImage from '../assets/logo.png' // TODO: really need this here?
 
 //TODO.feature: delete X and confirmation overlay (only within component)
 
@@ -54,7 +55,7 @@ export default {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: this.id})
+        body: JSON.stringify({ id: this.id, defaultImage: this.path === defaultImage })
       }).then(res => res.json())
         .then(data => {
           let infoMessage;

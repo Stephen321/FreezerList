@@ -27,7 +27,10 @@ export default {
   },
   methods: {
     onImageChange(e) {
-      this.previewImageURL = URL.createObjectURL(e.target.files[0]);
+      this.setImagePreview(URL.createObjectURL(e.target.files[0]))
+    },
+    setImagePreview(img) {
+      this.previewImageURL = img;
     },
     addItem(e) {
       console.log("Client sending POST request to add new item.");
@@ -44,9 +47,11 @@ export default {
         
       let formData = new FormData();
       if (elements.image.files.length > 0) {
-        // no image will result with server setting path to "default" which once it returns
-        // will be set by the client to the default image file
         formData.append("image", elements.image.files[0]);
+        // after adding the image to the form data, we can clear the previewImage and filelist
+        //  of the file <input>
+        elements.image.value = "";
+        this.setImagePreview(defaultImage);
       }
       // TODO: following doesn't work so straightforward as the separate "part" in the 
       // request body doesn't getthe content-type json and "multer" on the server probably

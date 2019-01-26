@@ -29,8 +29,9 @@ let db = new sqlite3.Database(':memory:', err => {
 //-------------------------------------
 // multer config
 //-------------------------------------
+const ImageBasePath = "uploads/"
 const storage = multer.diskStorage({
-  destination: 'uploads/',
+  destination: ImageBasePath,
   filename: function (req, file, cb) {
     // TODO: https://github.com/expressjs/multer#diskstorage
     // "Note that req.body might not have been fully populated yet. 
@@ -91,7 +92,7 @@ app.post('/api/add', upload, (req, res) => {
   // https://stackoverflow.com/a/17697134
   // https://stackoverflow.com/questions/10183291/how-to-get-the-full-url-in-express
   const path = (req.file === undefined) 
-    ? info.path 
+    ? info.path // TODO: this doesn't have ip/port so its the webpack dev server and not nodejs 
     : req.protocol + '://' + req.headers.host + '/' + req.file.filename; //req.file.path;
 
   console.log("Name: " + name);
@@ -116,20 +117,46 @@ app.post('/api/add', upload, (req, res) => {
 });
 
 app.post('/api/remove', (req, res) => {
-  // TODO:  remove the file also using fs
-  // https://nodejs.org/api/fs.html#fs_fs_unlink_path_callback
-
-  const sql = "DELETE FROM Items WHERE id = ?;";
-  //const id = JSON.parse(req.body.info);
-  const id = req.body.id;
+  const id = req.body.id;  
   
-  console.log("id to remove: " + id);
-  db.run(sql, [id], function (err) { 
+  //1. First get the "path" of the image associated with the item we are removing so we can remove it later
+  const getSql = "SELECT path FROM Items WHERE id = ?;";
+  db.get(getSql, [id], function (err, row) { 
     if (err) {
       res.json({error: true, info: err});
     } else {
-      console.log("Removed item with id: " + this.lastID)
-      res.json({error: false});
+      console.log("Found item with row: ", row);
+      let imagePath = row.path;
+
+      if (imagePath === undefined) {
+        // client can send delete after item already removed on server by another client
+        // TODO: change json response as an error will prevent client from removing item locally
+        res.json({error: true, info: new Error("imagePath is undefined.")});
+        return;
+      }
+
+
+      //2. Now attempt to remove the item from the database
+      const removeSql = "DELETE FROM Items WHERE id = ?;";
+      db.run(removeSql, [id], function (err) { 
+        if (err) {
+          res.json({error: true, info: err});
+        } else {
+          console.log("Removed item with id: " + this.lastID)
+
+          //3. Successfully remove item from database so time to remove the image file
+          if (req.body.defaultImage === false) {
+            imagePath = ImageBasePath + imagePath.substr(imagePath.lastIndexOf('/'));
+            try {
+              fs.unlinkSync(imagePath);
+            } catch (e) {
+              console.log("Deleting image file resulted in err: ", e);
+              // TODO: no need to let client know?
+            }
+          }
+          res.json({error: false});
+        }
+      });
     }
   });
 });
