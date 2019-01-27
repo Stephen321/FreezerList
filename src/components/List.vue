@@ -66,8 +66,6 @@ export default {
     // TODO: add event names to constants.js? 
     this.$root.$on("added-item", item => {
       this.listItems.push(item)
-      this.scrollToBottom(); 
-      //TODO: could also have a watch on this.listItems for length change
     });
     this.$root.$on("removed-item", id => {
       this.listItems.splice(this.listItems.findIndex(item => item.id === id), 1);
@@ -85,12 +83,11 @@ export default {
       this.scrollToTop();
     },
   	scrollToTop() {    	
-      var container = this.$el.querySelector(".list-grid");
-      container.scrollTop = 0;
-    },
-  	scrollToBottom() {    	
-      var container = this.$el.querySelector(".list-grid");
-      container.scrollTop = container.scrollHeight;
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
     },
     getItems() {
       fetch(GetItemsUrl)
