@@ -4,9 +4,12 @@
     <form @submit.prevent="addItem">
       <label for="name">Item name:</label> <input type="text" name="name" required pattern="[A-Za-z ]+" maxlength="50"><br>
       <label for="amount"> Amount:</label> <input type="number" name="amount" min="0" max="999"><br>
-      <label for="image"> Image:</label> <input type="file" name="image" accept="image/*" @change="onImageChange">
-      <img class="preview-image" :src="previewImageURL" alt="">
-      <button type="submit">Add new item</button>
+      <label class="image-input-wrapper" for="image">
+        Click image to change.
+        <input class="image-input" type="file" name="image" accept="image/*" @change="onImageChange">
+        <img class="preview-image" :src="previewImageURL" alt="" @click="openFileInput">
+      </label>
+      <button class="item-submit-btn" type="submit">Add new item</button>
     </form>
   </div>
 </template>
@@ -26,8 +29,26 @@ export default {
     }
   },
   methods: {
+    openFileInput(e) {
+      console.log(e);
+      // Get input and pass click to it.
+      // this.$el.querySelector(".image-input");
+      e.target.previousSibling.click()
+    },
     onImageChange(e) {
-      this.setImagePreview(URL.createObjectURL(e.target.files[0]))
+      this.setImagePreview(URL.createObjectURL(e.target.files[0])) 	
+      var body = document.body,
+      html = document.documentElement;
+
+      // https://stackoverflow.com/questions/1145850/how-to-get-height-of-entire-document-with-javascript
+      var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                            html.clientHeight, html.scrollHeight, html.offsetHeight );
+                            console.log(height);
+      window.scrollTo({
+        top: height,
+        left: 0,
+        behavior: 'smooth'
+      });
     },
     setImagePreview(img) {
       this.previewImageURL = img;
@@ -99,18 +120,7 @@ export default {
 .add-item {
   font-size: 1.2em;
 
-  .preview-image {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    max-height: 30em;
-    margin-top: 1em;
-    border: dashed 1px black;
-    //box-shadow: 1px 2px 5px lighten(black, 25%)
-  }
-  
-  // TODO: use classes
-  button {
+  .item-submit-btn {
     @color-top: #44d4f8;
     @color-bottom: #04464b;
     @color-text: rgb(255, 200, 97);
@@ -118,7 +128,6 @@ export default {
     border: solid 1px black;
     background: linear-gradient(@color-top, @color-bottom);
     color: @color-text;
-    margin-top: 1em;
     width: 100%;
     height: 2em;
     box-sizing: border-box;
@@ -133,8 +142,36 @@ export default {
     }
   }
 
-  input[type="file"] {
-    
+  .image-input-wrapper {
+    display:  block;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    color: white;
+    //min-height: 35em;
+    //display: flex;
+    //flex-direction: column;
+    //justify-content: center;
+    //align-items: center;
+
+    .preview-image {
+      background-color: white;
+      cursor: grab;
+      display: block;
+      margin: 0 auto;
+      margin-top: 2px;
+      max-width: 100%;
+      box-sizing: border-box;
+      border: dashed 1px black;
+
+      &:hover {
+        box-shadow: 0px 0px 10px 5px darken(white, 15%);
+      }
+    }
+
+    .image-input {
+      display: none;
+    }
   }
 }
 </style>
