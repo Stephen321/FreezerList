@@ -18,13 +18,9 @@
 
 <script>
 import Quantity from './Quantity.vue'
-import { RemoveItemUrl, DecreaseItemUrl, IncreaseItemUrl } from '../constants.js'
+import { API, EventName } from '../constants.js'
 import defaultImage from '../assets/logo.png' // TODO: really need this here?
 
-//TODO.feature: delete X and confirmation overlay (only within component)
-
-//TODO: images should come from server and be uploaded when adding new items.
-// Stored on server filesystem with file paths in sqlite3 database.
 export default {
   name: 'Item',
   props: {
@@ -50,7 +46,7 @@ export default {
     onDelete() {
       console.log("onDeleteClick");
       
-      fetch(RemoveItemUrl, {
+      fetch(API.Item.Remove, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -64,13 +60,14 @@ export default {
           }
           else {
             console.log("Server successfully removed item with id: ", this.id);
-            this.$root.$emit("removed-item", this.id);
+            this.$root.$emit(EventName.Item.Remove, this.id);
           }
       });
     },
     amountChanged(value) {
-      const ApiUrl = (value > 0) ? IncreaseItemUrl : DecreaseItemUrl;
-      const EventName = (value > 0) ? "increase-item" : "decrease-item";
+      const ApiUrl = (value > 0) ? API.Item.Increase : API.Item.Decrease;
+      console.log(API);
+      const EventToEmit = (value > 0) ? EventName.Item.Increase : EventName.Item.Decrease;
       
       if (this.amount + value < 0) {
         console.log("Can't decrease item below 0");
@@ -89,8 +86,8 @@ export default {
             // TODO: same note as for emit in List.vue except there it was the challenge
             // of getting an event to a sibling component while this case is more straight 
             // forward as the event has to go up 2 parents. (no need to use $root)
-            this.$root.$emit(EventName, this.id);
-            return "Server successfully increased/decreased item count. Emit " + EventName + " event.";
+            this.$root.$emit(EventToEmit, this.id);
+            return "Server successfully increased/decreased item count. Emit " + EventToEmit + " event.";
           } 
           return res.text();
       }).then(info => {
@@ -148,9 +145,6 @@ export default {
         position: absolute;
         top: 50%; 
         transform: translateY(-50%);
-        // TODO: is it bad to have multiple absolutely position divs inside each other
-        // (positoned relative to "item-img-delete-overlay" as if not then the floated
-        // delete button would push this down)
 
         span {
           background-color: lightcyan;

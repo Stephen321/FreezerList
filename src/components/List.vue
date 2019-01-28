@@ -20,7 +20,7 @@
 <script>
 import Search from './Search.vue'
 import Item from './Item.vue'
-import { GetItemsUrl } from '../constants.js'
+import { API, EventName } from '../constants.js'
 import Fuse from 'fuse.js'
 
 var fuse = new Fuse([], {
@@ -64,16 +64,16 @@ export default {
   mounted() {
     this.getItems();
     // TODO: add event names to constants.js? 
-    this.$root.$on("added-item", item => {
+    this.$root.$on(EventName.Item.Add, item => {
       this.listItems.push(item)
     });
-    this.$root.$on("removed-item", id => {
+    this.$root.$on(EventName.Item.Remove, id => {
       this.listItems.splice(this.listItems.findIndex(item => item.id === id), 1);
     });
-    this.$root.$on("increase-item", id => {
+    this.$root.$on(EventName.Item.Increase, id => {
       this.listItems.find(item => item.id === id).amount++
     });
-    this.$root.$on("decrease-item", id => {
+    this.$root.$on(EventName.Item.Decrease, id => {
       this.listItems.find(item => item.id === id).amount--
     });
   },
@@ -90,7 +90,7 @@ export default {
       });
     },
     getItems() {
-      fetch(GetItemsUrl)
+      fetch(API.Item.GetAll)
         .then(res => res.json())
         .then(data => {
           this.listItems = data;

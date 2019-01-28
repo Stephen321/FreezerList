@@ -15,16 +15,19 @@
 </template>
 
 <script>
-import { AddItemUrl } from '../constants.js'
+// TODO: importing everything in just 1 api path..
+import { API, EventName } from '../constants.js'
+
+
+// TODO: need to import image so webpack sees this as a file dependency and not some random
+// string. therefore it will apply loaders (which in this case will copy the file
+// to dist/ and rename with hash)
 import defaultImage from '../assets/logo.png'
 
 export default {
   name: 'AddItem',
   data() {
     return {
-      // TODO: need require so webpack sees this as a file dependency and not some random
-      // string. therefore it will apply loaders (which in this case will copy the file
-      // to dist/ and rename with hash)
       previewImageURL: defaultImage,
     }
   },
@@ -55,9 +58,6 @@ export default {
     },
     addItem(e) {
       console.log("Client sending POST request to add new item.");
-      // TODO:  e.target.elements... or v-model, which is better? v-model updates data 
-      // on every input event, also need to store in data object even 
-      // tho this component doesnt care about it after it was submitted
 
       const elements = e.target.elements;
       const item = {
@@ -81,13 +81,8 @@ export default {
       // parse it anyway? (it would still have other parts to do after) 
       formData.append("info", JSON.stringify(item));
       
-      fetch(AddItemUrl, {
+      fetch(API.Item.Add, {
         method: 'POST',
-        //headers: { // TODO: switching to use multipart/form-data so can upload image +
-                     // other data in one request
-        //  'Content-Type': 'application/json'
-        //},
-        //body: fileInput.files[0] // TODO: this was no longer working?
         body: formData
       }).then(res => res.json())
         .then(data => {
@@ -97,10 +92,6 @@ export default {
           }
           else {
             item.id = data.id; // get id that was added by the server
-
-            // TODO: could store URL or File/Blob here instead for server to send
-            // to prevent another request and waiting for data to come back. However,
-            // file paths are easier and file system is there for that. (and less memory)
             item.path = data.path; //get the image path set on the server
             console.log("Server has added item: ", item);
 
@@ -108,7 +99,7 @@ export default {
             // which is listened to by List.vue. Better way of sharing state
             // could be with props + events depending on the use case. Vuex could
             // also be used.  
-            this.$root.$emit("added-item", item);
+            this.$root.$emit(EventName.Item.Add, item);
           }
       });
     }
