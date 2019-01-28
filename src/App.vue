@@ -2,12 +2,14 @@
   <div id="app">
     <List class="panel"/>
     <AddItem class="panel"/>
+    <Elevator/>
   </div>
 </template>
 
 <script>
 import List from './components/List.vue'
 import AddItem from './components/AddItem.vue'
+import Elevator from './components/Elevator.vue'
 
 export default  {
   name: 'app',
@@ -17,7 +19,8 @@ export default  {
   },
   components: {
     List,
-    AddItem
+    AddItem,
+    Elevator
   }
 }
 </script>

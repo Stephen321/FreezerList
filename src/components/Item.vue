@@ -66,7 +66,6 @@ export default {
     },
     amountChanged(value) {
       const ApiUrl = (value > 0) ? API.Item.Increase : API.Item.Decrease;
-      console.log(API);
       const EventToEmit = (value > 0) ? EventName.Item.Increase : EventName.Item.Decrease;
       
       if (this.amount + value < 0) {
@@ -120,7 +119,7 @@ export default {
 
     // TODO: separate component for this not inside img-wrapper div?
     .item-img-delete-overlay {
-      z-index: 10;
+      z-index: 2;
       text-align: initial;
       position: absolute;
       top: 0px;

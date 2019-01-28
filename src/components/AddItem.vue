@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     openFileInput(e) {
-      console.log(e);
       // Get input and pass click to it.
       // this.$el.querySelector(".image-input");
       e.target.previousSibling.click()
@@ -43,10 +42,12 @@ export default {
       var body = document.body,
       html = document.documentElement;
 
+      // TODO:
       // https://stackoverflow.com/questions/1145850/how-to-get-height-of-entire-document-with-javascript
       var height = Math.max( body.scrollHeight, body.offsetHeight, 
                             html.clientHeight, html.scrollHeight, html.offsetHeight );
-                            console.log(height);
+      // TODO: this doesnt work for small -> big image as at the time of this scroll, the
+      // max height is in relation to the small image...
       window.scrollTo({
         top: height,
         left: 0,
