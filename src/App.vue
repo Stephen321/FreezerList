@@ -10,6 +10,7 @@
 import List from './components/List.vue'
 import AddItem from './components/AddItem.vue'
 import Elevator from './components/Elevator.vue'
+import Fonts from './assets/css/fonts.css'
 
 export default  {
   name: 'app',
@@ -26,26 +27,29 @@ export default  {
 </script>
 
 <style lang="less">
-body {
-  margin: 0;
+html {
+  font-size: 10px;
+  font-family: 'Lato', sans-serif;
 
-  #app {
-    font-size: 14px;
-    min-width: 220px;
-    max-width: 80em;
-    margin: 0 auto;
-  }
+  body {
+    margin: 0;
 
-  .panel {
-    @colour: darkcyan;
+    #app {
+      min-width: 220px;
+      max-width: 130em;
+      margin: 0 auto;
+    }
 
-    //border: solid black 2px;
-    background: @colour;
-    margin: 1em;
-    padding: 1em;
-    /* offset-x | offset-y | blur-radius | spread-radius | color */
-    box-shadow: 3px 4px 4px darken(@colour, 15%),
-          inset 1px 1px lighten(@colour, 10%);
+    .panel {
+      @colour: darkcyan;
+
+      //border: solid black 2px;
+      background: @colour;
+      margin: 1.25em;
+      padding: 1.25em; // TODO: padding here or use margin inside?
+      /* offset-x | offset-y | blur-radius | spread-radius | color */
+      box-shadow: 2px 3px 4px darken(@colour, 15%);
+    }
   }
 }
 </style>

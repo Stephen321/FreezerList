@@ -115,7 +115,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     //grid-template-columns: repeat(3, minmax(210px, 1fr));
-    grid-gap: 1em;
+    grid-gap: 1.5em;
     //max-height: 66em;
     //overflow-y: auto;
     overflow-x: hidden;

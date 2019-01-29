@@ -45,7 +45,7 @@ export default {
     background-color: darkslategrey;
     color: white;
     text-align: center;
-    font-size: 2.4em;
+    font-size: 34px; //TODO: use a % instead?
     line-height: 1.2;
     width: @amount-width;
   }

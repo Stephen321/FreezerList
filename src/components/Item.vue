@@ -130,7 +130,7 @@ export default {
       .item-img-delete-btn {
         float: right;
         width: 14%;
-        max-width: 2.5em;
+        max-width: 4em;
         filter: drop-shadow(1px 1px 1px black);
         padding-top: 1px;
         padding-right: 2px;
@@ -147,11 +147,12 @@ export default {
 
         span {
           background-color: lightcyan;
+          font-size: 1.5em;
         }
         img {
           vertical-align: middle;
-          max-width: 2.5em;
-          margin: 1em 1em 0 1em;
+          max-width: 3em;
+          margin: 1.5em 1.5em 0 1.5em;
           filter: drop-shadow(1px 1px 1px black);
         }
       }
@@ -163,12 +164,12 @@ export default {
     border-style: solid;
     border-width: 2px 0;
     text-align: center;
-    line-height: 4em;
-    max-height: 4em;
+    line-height: 5em;
+    max-height: 5em;
 
     span {
       display: inline-block;
-      font-size: 1.5em;
+      font-size: 2em;
       vertical-align: middle;
       line-height: 0.8;
     }
