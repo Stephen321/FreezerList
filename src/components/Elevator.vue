@@ -1,5 +1,5 @@
 <template>
-  <div class="elevator" @scroll="onPageScroll" @click="scrollToBottom" :class="{ 'elevator-hidden': hasNoScrollBar}">
+  <div class="elevator" @click="scrollToBottom">
     <img src="../assets/down.png" alt="">
   </div>
 </template>
@@ -13,23 +13,7 @@ export default {
       scrollPercentage: 0
     }
   },
-  computed: {
-    hasNoScrollBar() {
-      return this.scrollPercentage > 80;
-    }
-  },
   methods: {
-    onPageScroll(e) {
-      // TODO: 
-      // https://stackoverflow.com/questions/2387136/cross-browser-method-to-determine-vertical-scroll-percentage-in-javascript
-      var h = document.documentElement, 
-          b = document.body,
-          st = 'scrollTop',
-          sh = 'scrollHeight';
-
-      this.scrollPercentage = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
-      console.log(this.scrollPercentage);
-    },
     scrollToBottom() {// TODO: AddItem.vue repeats this logic, 
                       // it could emit an event to trigger this?
       var body = document.body,
@@ -64,10 +48,7 @@ export default {
   
   img {
     vertical-align: middle;
+    width: 3em;
   }
-}
-
-.elevator-hidden {
-  visibility: hidden;
 }
 </style>
