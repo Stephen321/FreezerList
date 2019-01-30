@@ -101,11 +101,14 @@ export default {
 </script>
 
 <style lang="less">
+@import '../assets/css/colors.less';
+
 .item {
   @img-wrapper-size: 255px;
+  @border-color: black;
 
-  background-color: lightblue;
-  border: solid black 2px;
+  background-color: @color-item;
+  border: solid @border-color 1px;
 
   .item-img-wrapper {
     height: @img-wrapper-size;
@@ -131,7 +134,7 @@ export default {
         float: right;
         width: 14%;
         max-width: 4em;
-        filter: drop-shadow(1px 1px 1px black);
+        filter: drop-shadow(1px 1px black);
         padding-top: 1px;
         padding-right: 2px;
         // TODO: too much nesting
@@ -146,23 +149,24 @@ export default {
         transform: translateY(-50%);
 
         span {
-          background-color: lightcyan;
+          background-color: @color-item-delete-confirmation;
           font-size: 1.5em;
         }
         img {
           vertical-align: middle;
           max-width: 3em;
           margin: 1.5em 1.5em 0 1.5em;
-          filter: drop-shadow(1px 1px 1px black);
+          filter: drop-shadow(1px 1px black);
         }
       }
     }
   }
 
   .item-name {
-    background-color: lightcyan;
+    background-color: @color-item-name;
     border-style: solid;
-    border-width: 2px 0;
+    border-width: 1px 0;
+    border-color: @border-color;
     text-align: center;
     line-height: 5em;
     max-height: 5em;
@@ -178,8 +182,8 @@ export default {
 }
 
 .item-not-found {
-  border: solid 2px red;
-  filter: grayscale(80%);
+  border: solid 1px red;
+  filter: grayscale(95%) brightness(50%);
 }
 
 .hidden-dialog {

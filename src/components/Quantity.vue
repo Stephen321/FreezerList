@@ -19,19 +19,25 @@ export default {
 </script>
 
 <style lang="less">
+@import '../assets/css/colors.less';
+
 .quantity {
   @amount-width: 29%;
   @clickable-width: ((100% - @amount-width) / 2);
 
-  background-color: rgb(129, 209, 236);
 
   .quantity-clickable() {
     display: inline-block;
     vertical-align: top;
     width: @clickable-width;
     text-align: center;
+    background-color: @color-quantity;
     img {
       vertical-align: top;
+    }
+
+    &:hover {
+      background: darken(@color-quantity, 20%);
     }
   }
 
@@ -42,8 +48,8 @@ export default {
 
   .quantity-amount {
     display: inline-block;
-    background-color: darkslategrey;
-    color: white;
+    background-color: @color-quantity-amount;
+    color: @color-quantity-text;
     text-align: center;
     font-size: 34px; //TODO: use a % instead?
     line-height: 1.2;

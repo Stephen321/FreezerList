@@ -12,10 +12,12 @@ export default {
 </script>
 
 <style lang="less">
+@import '../assets/css/colors.less';
+
 .search {
-  background-color: grey;
-  padding: 1em;
-  border: solid black 2px;
+  background-color: @color-search;
+  padding: 1ex;
+  border: solid darken(grey, 40%) 1px;
   margin-bottom: 1em;
   position: sticky;
   top: 0px;

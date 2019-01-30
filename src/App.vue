@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <List class="panel"/>
-    <AddItem class="panel"/>
+    <List/>
+    <AddItem/>
     <Elevator/>
   </div>
 </template>
@@ -27,10 +27,12 @@ export default  {
 </script>
 
 <style lang="less">
+@import './assets/css/colors.less';
+
 html {
   font-size: 10px;
   font-family: 'Lato', sans-serif;
-
+  background-color: @color-background;
   body {
     margin: 0;
 
@@ -38,17 +40,6 @@ html {
       min-width: 220px;
       max-width: 130em;
       margin: 0 auto;
-    }
-
-    .panel {
-      @colour: darkcyan;
-
-      //border: solid black 2px;
-      background: @colour;
-      margin: 1.25em;
-      padding: 1.25em; // TODO: padding here or use margin inside?
-      /* offset-x | offset-y | blur-radius | spread-radius | color */
-      box-shadow: 2px 3px 4px darken(@colour, 15%);
     }
   }
 }

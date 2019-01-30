@@ -105,13 +105,18 @@ export default {
 </script>
 
 <style lang="less">
+@import '../assets/css/colors.less';
+
 .list {
+  background: @color-panel;
+  margin: 3em;
+
   .list-grid {
-    padding: 1ex;
+    padding: 0;
     margin: 0 0;
     list-style: none;
-    background-color: cornflowerblue;
-    border: solid black 2px;
+    //background-color: cornflowerblue;
+    //border: solid black 2px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     //grid-template-columns: repeat(3, minmax(210px, 1fr));

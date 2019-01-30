@@ -131,14 +131,14 @@ export default {
 </script>
 
 <style lang="less">
+@import '../assets/css/colors.less';
+
 .add-item {
-  /*
-  .add-item-heading {
-    margin: 1em 0;
-  }
-  */
+  border-top: dashed black 2px;
+
   .add-form {
     @width-percentage: 95%;
+    color: @color-add-item-text;
 
     width: 90%;
     margin: 0 auto;
@@ -146,7 +146,6 @@ export default {
       display:  block;
       text-align: center;
       margin: 1em 0;
-      color: white;
       font-size: 2em;
       //min-height: 35em;
       //display: flex;
@@ -156,7 +155,7 @@ export default {
 
       .preview-image {
         display:  block;
-        background-color: white;
+        background-color: @color-item;
         cursor: grab;
         max-width: @width-percentage;
         margin: 2px auto 0 auto;
@@ -164,7 +163,7 @@ export default {
         border: dashed 1px black;
 
         &:hover {
-          box-shadow: 0px 0px 10px 5px darken(white, 15%);
+          box-shadow: 0px 0px 10px 5px darken(@color-item, 15%);
         }
       }
 
@@ -177,7 +176,6 @@ export default {
       margin: 1em 0;
       font-size: 2em;
       text-align: center;
-      color: white;
 /*
       span {
         height: 1.5em;
@@ -215,13 +213,9 @@ export default {
     }
 
     .item-submit-btn {
-      @color-top: #44d4f8;
-      @color-bottom: #04464b;
-      @color-text: white;
-
-      border: solid 1px mix(@color-top, @color-bottom, 50%);
-      background: linear-gradient(@color-top, @color-bottom);
-      color: @color-text;
+      border: solid 1px mix(@color-add-item-submit-top, @color-add-item-submit-bot, 50%);
+      background: linear-gradient(@color-add-item-submit-top, @color-add-item-submit-bot);
+      color: @color-add-item-submit-txt;
       width: 100%;
       height: 3em;
       //box-sizing: border-box;
@@ -229,10 +223,13 @@ export default {
       padding: 0;
 
       &:hover {
-        @hovered-lighten-pct: 15%;
+        @hovered-pct: 25%;
 
         cursor: grab;
-        background: linear-gradient(lighten(@color-top, @hovered-lighten-pct), @color-bottom);
+        background: linear-gradient(
+                    darken(@color-add-item-submit-top, @hovered-pct),
+                    @color-add-item-submit-bot
+          );
       }
     }
   }
