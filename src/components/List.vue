@@ -110,10 +110,11 @@ export default {
 .list {
   background: @color-panel;
   margin: 3em;
+  padding: 1em 0;
 
   .list-grid {
     padding: 0;
-    margin: 0 0;
+    margin: 0 2em;
     list-style: none;
     //background-color: cornflowerblue;
     //border: solid black 2px;

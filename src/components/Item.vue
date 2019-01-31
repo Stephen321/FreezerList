@@ -170,6 +170,7 @@ export default {
     text-align: center;
     line-height: 5em;
     max-height: 5em;
+    color: @color-item-name-txt;
 
     span {
       display: inline-block;

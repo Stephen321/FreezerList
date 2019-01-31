@@ -33,6 +33,7 @@ html {
   font-size: 10px;
   font-family: 'Lato', sans-serif;
   background-color: @color-background;
+
   body {
     margin: 0;
 

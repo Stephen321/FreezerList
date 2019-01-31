@@ -135,6 +135,9 @@ export default {
 
 .add-item {
   border-top: dashed black 2px;
+  background: @color-panel;
+  margin: 3em;
+  padding: 1em 0;
 
   .add-form {
     @width-percentage: 95%;
