@@ -43,7 +43,6 @@ export default {
 
   .quantity-minus {
     .quantity-clickable();
-    //transform: translate(-40%, 0);
   }
 
   .quantity-amount {
@@ -58,7 +57,6 @@ export default {
 
   .quantity-plus {
     .quantity-clickable();
-    //transform: translate(40%, 0);
   }
 }
 </style>

@@ -150,11 +150,6 @@ export default {
       text-align: center;
       margin: 1em 0;
       font-size: 2em;
-      //min-height: 35em;
-      //display: flex;
-      //flex-direction: column;
-      //justify-content: center;
-      //align-items: center;
 
       .preview-image {
         display:  block;
@@ -179,18 +174,9 @@ export default {
       margin: 1em 0;
       font-size: 2em;
       text-align: center;
-/*
-      span {
-        height: 1.5em;
-      }
 
-      img {
-        height: 2.5em;
-      }
-*/
       .name-label {
         display: block;
-        //background-color: red
         width: @width-percentage;;
         margin: 1em auto;
 
@@ -205,7 +191,6 @@ export default {
 
       .amount-label {
         display: block;
-        //background-color: blue;
         width: @width-percentage;
         margin: 1em auto;
 
@@ -221,7 +206,6 @@ export default {
       color: @color-add-item-submit-txt;
       width: 100%;
       height: 3em;
-      //box-sizing: border-box;
       font-size: 2.5em;
       padding: 0;
 

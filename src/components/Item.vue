@@ -126,7 +126,6 @@ export default {
       text-align: initial;
       position: absolute;
       top: 0px;
-      //transform: translateY(-@img-wrapper-size);
       width: 100%;
       height: 100%;
 
@@ -143,7 +142,6 @@ export default {
       .delete-confirmation-dialog {
         width: 100%;
         text-align: center;
-        //clear: right;
         position: absolute;
         top: 50%; 
         transform: translateY(-50%);

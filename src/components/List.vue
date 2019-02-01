@@ -116,14 +116,9 @@ export default {
     padding: 0;
     margin: 0 2em;
     list-style: none;
-    //background-color: cornflowerblue;
-    //border: solid black 2px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    //grid-template-columns: repeat(3, minmax(210px, 1fr));
     grid-gap: 1.5em;
-    //max-height: 66em;
-    //overflow-y: auto;
     overflow-x: hidden;
   }
 }
