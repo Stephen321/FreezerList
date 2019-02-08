@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# This is a git hook for use where the bare repos was created (Raspberry Pi).
+# A nodejs server runs to server the website on our local network from the Pi.
+# Static files can be reversed proxied through lighttpd/nginx. Static files 
+# are the vue-cli created app/client. Nodejs acts as api server for /add ,
+# /remove etc. (to maintain sqlite3 db). 
+# This hook will allow dev to git push and deploy updated server/client files
+# on Pi.
+
