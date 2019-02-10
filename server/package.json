@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "multer": "^1.4.1",
+    "sqlite3": "^4.0.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "scripts": {
+    "serve": "nodemon -V server/index.js"
+  },
+  "author": "https://github.com/Stephen321",
+  "license": "ISC"
+}

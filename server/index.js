@@ -58,7 +58,7 @@ const upload = multer({ storage }).single("image")
 //express middleware config
 //-------------------------------------
 app.use(cors());
-app.use(express.static('dist'));
+app.use(express.static('static'));
 
 // TODO: dist is where webpack/vue-cli outputs files (including static images)
 // and uploads is where multer is configured to output its files (which will be images)
