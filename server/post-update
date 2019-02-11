@@ -11,34 +11,31 @@
 set -e 
 
 PROJECT_DIR="/srv/nodejs/item_lister"
-STATIC_ROOT="$PROJECT_ROOT" # temp this will change
+STATIC_ROOT="$PROJECT_ROOT" # TODO: this will change once reverse proxied
 GIT_DIR="/srv/git/item_lister.git"
-WORK_DIR=$(mktemp -d)
+#$(mktemp -d)
+# note: crontab to delete this work_tree dir weekly 
+WORK_DIR="./work_tree/"
 
 PROJECT_UPLOADS_DIR="$STATIC_ROOT/uploads"
 
 git --git-dir="$GIT_DIR" --work-tree="$WORK_DIR" checkout -f
 cd "$WORK_DIR"
 
-cd "client/"
+cd "./client/"
 npm install --save-dev
 npm run build
 
 cd "../server/"
 npm install
 
+# TODO: also update this post-update hook ( maybe first before running it? )
+mv post-update "$GIT_DIR/hooks"
 
-# TODO: static files are in dist/ so should be moved to where web server will
-# serve them from. nodejs file is in server/.
-# TODO: preserve or no-preserve?? timestamps?
 cp --recursive --preserve=mode,ownership  * "$STATIC_ROOT"
-# TODO: also update this post-update hook ( probably first before running it )
 mkdir --parents --mode=2670 "$PROJECT_UPLOADS_DIR"
 # TODO.urgent: this doesnt work without sudo!! everytime you overwrite/update the
 # files the user will be pi and need sudo to change it...
 # chown item_lister-nodejs_usr -R /srv/nodejs/item_lister/uploads
-
-# TODO: double check permissons in /srv/nodejs/
-# TODO: make separate package json for server only and install it separately
 
 
