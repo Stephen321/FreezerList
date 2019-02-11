@@ -10,6 +10,8 @@
 
 set -e 
 
+echo "Start post-hook"
+
 PROJECT_DIR="/srv/nodejs/item_lister"
 STATIC_ROOT="$PROJECT_ROOT" # TODO: this will change once reverse proxied
 GIT_DIR="/srv/git/item_lister.git"
@@ -21,18 +23,25 @@ PROJECT_UPLOADS_DIR="$STATIC_ROOT/uploads"
 
 git --git-dir="$GIT_DIR" --work-tree="$WORK_DIR" checkout -f
 cd "$WORK_DIR"
+echo "Git checkouted out to $WORK_DIR"
 
 cd "./client/"
+echo "Starting npm install --save-dev of client"
 npm install --save-dev
+echo "Run build script to output static files from vue-cli-service build"
 npm run build
 
 cd "../server/"
+echo "Starting npm install of server"
 npm install
 
 # TODO: also update this post-update hook ( maybe first before running it? )
+echo "Update post-update hook"
 mv post-update "$GIT_DIR/hooks"
 
+echo "Copy server files to $STATIC_ROOT"
 cp --recursive --preserve=mode,ownership  "$WORK_DIR/server/"* "$STATIC_ROOT"
+echo "Create uploads folder at $PROJECT_UPLOADS_DIR"
 mkdir --parents --mode=2670 "$PROJECT_UPLOADS_DIR"
 
 
