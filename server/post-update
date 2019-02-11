@@ -32,10 +32,7 @@ npm install
 # TODO: also update this post-update hook ( maybe first before running it? )
 mv post-update "$GIT_DIR/hooks"
 
-cp --recursive --preserve=mode,ownership  * "$STATIC_ROOT"
+cp --recursive --preserve=mode,ownership  "$WORK_DIR/server/"* "$STATIC_ROOT"
 mkdir --parents --mode=2670 "$PROJECT_UPLOADS_DIR"
-# TODO.urgent: this doesnt work without sudo!! everytime you overwrite/update the
-# files the user will be pi and need sudo to change it...
-# chown item_lister-nodejs_usr -R /srv/nodejs/item_lister/uploads
 
 
