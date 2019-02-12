@@ -6,6 +6,6 @@ server:
     node_modules(cors,multer,expressjs,)  
     
 client:  
-    vue-cli files
+    vue-cli output built static files
     
     
