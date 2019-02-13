@@ -85,15 +85,16 @@ export default {
         };
         
       let formData = new FormData();
+
       if (elements.image.files.length > 0) {
         formData.append("image", elements.image.files[0]);
         // after adding the image to the form data, we can clear the previewImage and filelist
         //  of the file <input>
-
-        // TODO: can uncomment these two lines to reset image to default after every submit.
-        //elements.image.value = "";
-        //this.setImagePreview(defaultImage);
+        elements.image.value = "";
+        this.setImagePreview(defaultImage);
       }
+      elements.name.value = "";
+      
       // TODO: following doesn't work so straightforward as the separate "part" in the 
       // request body doesn't getthe content-type json and "multer" on the server probably
       // doesnt know how to parse json and would take the entire string as just a single
