@@ -2,6 +2,7 @@
 
 ### Local testing  
 - Change ip in constants.js to localhost
+- cd to server/ and run *./createDatabase.js*
 - vue ui --headless
 - Go to localhost:8000 for vue ui interface
 - Go to tasks and start serve:bs and serve:api to start webpack-dev-server proxied to by browsersync and the api nodejs server

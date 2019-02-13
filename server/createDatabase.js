@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const sqlite3 = require('sqlite3').verbose()
+const fs = require('fs');
 
-//-------------------------------------
-// sqlite3 config
-//-------------------------------------
+if (!fs.existsSync('database')){
+    fs.mkdirSync('database');
+}
+
 let db = new sqlite3.Database('database/item_lister.db', err => {
   if (err) {
     return console.error(err.message);
