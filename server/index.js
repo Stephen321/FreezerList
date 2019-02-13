@@ -11,7 +11,7 @@ const multer = require('multer')
 //-------------------------------------
 // sqlite3 config
 //-------------------------------------
-let db = new sqlite3.Database('item_lister.db', err => {
+let db = new sqlite3.Database('item_lister.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, err => {
   if (err) {
     return console.error(err.message);
   }
