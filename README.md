@@ -1,5 +1,14 @@
 # item_lister
-  
+
+### Local testing  
+- Change ip in constants.js to localhost
+- vue ui --headless
+- Go to localhost:8000 for vue ui interface
+- Go to tasks and start serve:bs and serve:api to start webpack-dev-server proxied to by browsersync and the api nodejs server
+- Go to localhost:8080 to see live reloaded site
+- Nodemon will reload node server if index.js changes
+- Deploy to raspberry pi with *git push deploy master*
+
 ### Two package.json:  
 server:  
     index.js (express server for responding to API requests to manage items)  
