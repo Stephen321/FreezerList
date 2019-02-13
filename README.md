@@ -6,7 +6,7 @@ server:
     node_modules(cors,multer,expressjs,)  
     
 client:  
-    vue-cli files
+    vue-cli output built static files
 
 
 ### TODO:   
@@ -29,4 +29,3 @@ ufw rules on pi need updating for port 80 traffic only from local network
 - Re-direct to admin page if HOST is pi.hole
 - /etc/hosts names and raspberrypi give a "domain not on blacklist" blocked page. Seems to be the default if it can find it on whitelist or blacklist and no file in url path..
 - p.s raspberrypi etc. try get index file but cant find so it triggers 404 error which gets index.php from pihole as mentioned above
-
