@@ -16,7 +16,7 @@ PROJECT_DIR="/srv/nodejs/item_lister"
 STATIC_ROOT="/srv/nodejs/item_lister" # TODO: this will change once reverse proxied
 GIT_DIR="/srv/git/item_lister.git"
 # note: crontab to delete this work_tree dir weekly 
-WORK_DIR="/srv/git/work_tree"
+WORK_DIR="/srv/git/item_lister.git/work_tree"
 
 PROJECT_UPLOADS_DIR="$STATIC_ROOT/uploads"
 
