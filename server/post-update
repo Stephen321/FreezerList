@@ -15,7 +15,6 @@ echo "Start post-hook"
 PROJECT_DIR="/srv/nodejs/item_lister"
 STATIC_ROOT="$PROJECT_ROOT" # TODO: this will change once reverse proxied
 GIT_DIR="/srv/git/item_lister.git"
-#$(mktemp -d)
 # note: crontab to delete this work_tree dir weekly 
 WORK_DIR="./work_tree/"
 
