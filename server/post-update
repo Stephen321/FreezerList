@@ -36,8 +36,8 @@ echo "Starting npm install of server"
 npm install
 
 # TODO: also update this post-update hook ( maybe first before running it? )
-echo "Update post-update hook"
-mv post-update "$GIT_DIR/hooks"
+#echo "Update post-update hook"
+#mv post-update "$GIT_DIR/hooks"
 
 echo "Copy server files to $STATIC_ROOT"
 cp --recursive --preserve=mode,ownership  "$WORK_DIR/server/"* "$STATIC_ROOT"

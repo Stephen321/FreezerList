@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const fs = require('fs')
 const express = require('express')
 const cors = require('cors')
@@ -10,19 +11,11 @@ const multer = require('multer')
 //-------------------------------------
 // sqlite3 config
 //-------------------------------------
-let db = new sqlite3.Database(':memory:', err => {
+let db = new sqlite3.Database('item_lister.db', err => {
   if (err) {
     return console.error(err.message);
   }
-  console.log('Connected to the in-memory SQlite database.');
-  ///*
-  db.run(`CREATE TABLE Items(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name           TEXT    NOT NULL,
-    amount         INT     NOT NULL,
-    path           TEXT    NOT NULL
- );`, (err) => { if (err) console.log(err)});
- //*/
+  console.log('Connected to the SQlite database.');
 });
 
 
