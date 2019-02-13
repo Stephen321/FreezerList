@@ -11,7 +11,7 @@
         </div>
       </div>
     </div>
-    <div class="item-name"><span>{{ name }} {{ id }}</span></div>
+    <div class="item-name"><span>{{ name }}</span></div>
     <Quantity :amount="amount" @change="amountChanged"/>
   </li>
 </template>
