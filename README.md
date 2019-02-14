@@ -1,5 +1,8 @@
 # item_lister
 
+### Description  
+A website made using *Vuejs* for the frontend. Items can added with custom names/amounts/images to the database. Quantities can be changed on existing items or items may be deleted. API calls are to the backend which is *Nodejs*. A bare repos on my Raspberry Pi allows me to use git to deploy to the Pi with a git hook. The *Nodejs* *systemd* service keeps the node server running and serving the static files built from the *vue-cli* process described below (or look at the *post-update* script which is the git hook). My Pi already had a running *lighttpd* server due to *PiHole*. *PiHole*'s *FTLDNS* also easily allowed me to add a custom simple name domain entry which is proxy passed by the *lighttpd* web server to the node process running on a different port. Firewall ports opened via *ufw*.
+
 ### Local testing  
 - Change ip in constants.js to localhost
 - cd to server/ and run *./createDatabase.js*
